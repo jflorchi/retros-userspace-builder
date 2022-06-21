@@ -38,7 +38,7 @@ ln -s /data/data/com.termux/files/usr /usr
 exit
 
 # enter the new userspace (reuse later)
-su -c 'HOME=/data/data/com.termux/files/home PATH="/data/data/com.termux/files/usr/bin:/bin" LD_LIBRARY_PATH="/data/data/com.termux/files/usr/lib" bash'
+su -c 'HOME=/data/data/com.termux/files/home PATH="/data/data/com.termux/files/usr/bin:/bin" LD_LIBRARY_PATH="/data/data/com.termux/files/usr/lib:/data/data/com.termux/files/usr/local/lib64" bash'
 mkdir -p tmp && mount -t tmpfs -o size=2048M tmpfs /tmp
 cd ~
 tmux
