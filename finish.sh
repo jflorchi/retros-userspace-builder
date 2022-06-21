@@ -20,4 +20,7 @@ popd
 
 cp -pRv home out/data/data/com.termux/files/
 mkdir -p out/data/data/com.termux/files/usr/libexec/qt/egldeviceintegrations/
-cp libqeglfs-surfaceflinger-integration.so mkdir -p out/data/data/com.termux/files/usr/libexec/qt/egldeviceintegrations/
+cp libqeglfs-surfaceflinger-integration.so 
+cd out/data/data/com.termux/
+tar cvJf userspace.tar.xz files
+mv userspace.tar.xz ../../../../
