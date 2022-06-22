@@ -6,11 +6,6 @@ while true; do
     sleep 1
 done
 
-# setup ssh
-sshd
-mkdir -p /data/params/d
-ssh-keygen -y -f ~/id_rsa > /data/params/d/GithubSshKeys
-
 # mount -o remount,rw /system
 
 # setup the env
@@ -42,7 +37,7 @@ tar -xf $BINUTILS.tar.bz2
 popd
 
 mkdir -p build/$BINUTILS
-pushd build/$BINUTILS
+pushd build/$BINUTILSn denied (publickey,keyboard-interactive).
 
 # hack for binutils
 sed -i '1s/^/#define __ANDROID_API__ 28\n/' ../../src/$BINUTILS/bfd/bfdio.c
@@ -147,6 +142,17 @@ pushd nload-0.7.4
 bash run_autotools
 ./configure --prefix=/usr
 make -j4
+make install
+popd
+
+# ------- OpenCV
+cd /tmp/build
+git clone https://github.com/opencv/opencv.git
+git -C opencv checkout 4.x
+mkdir -p build 
+cd build
+cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
+make -j3
 make install
 popd
 
