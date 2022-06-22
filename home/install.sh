@@ -6,6 +6,11 @@ while true; do
     sleep 1
 done
 
+# setup ssh
+sshd
+mkdir -p /data/params/d
+ssh-keygen -y -f ~/id_rsa > /data/params/d/GithubSshKeys
+
 # mount -o remount,rw /system
 
 # setup the env
@@ -66,7 +71,7 @@ mkdir -p build/$GCC
 pushd build/$GCC
 ../../src/$GCC/configure --target=arm-none-eabi \
   --build=aarch64-unknown-linux-gnu \
-  --disable-libssp --disable-gomp --disable-libstcxx-pch --enable-threads \
+  --disable-libssp --disable-gomp --disable-libstcxx-pch --enablexec /data/data/com.termux/files/usr/bin/sshd -De-threads \
   --disable-shared --disable-libmudflap \
   --prefix=$PREFIX --with-cpu=cortex-m4 \
   --with-mode=thumb --disable-multilib \
@@ -176,8 +181,8 @@ rm -rf /usr/local/
 python -c "from casadi import *"
 popd
 
-# setup ssh
-sshd
-mkdir -p /data/params/d && touch /data/params/d/GithubSshKeys
+touch /data/data/com.termux/files/retros_setup_complete
 
 printf "\n\nInstall successful\nTook $SECONDS seconds\n"
+
+reboot
