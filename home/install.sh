@@ -15,26 +15,26 @@ SET_STAGE=`cat /data/data/com.termux/files/home/.install_progress`
 
 # mount -o remount,rw /system
 
-if [ $SET_STAGE -lt 1 ]; then
-  # setup the env
-  apt-get update
-  apt-get install gawk findutils
-  chmod 644 /data/data/com.termux/files/home/.ssh/config
-  chown root:root /data/data/com.termux/files/home/.ssh/config
+# setup the env
+apt-get update
+apt-get install gawk findutils
+chmod 644 /data/data/com.termux/files/home/.ssh/config
+chown root:root /data/data/com.termux/files/home/.ssh/config
 
-  # Execute all apt postinstall scripts
-  chmod +x /usr/var/lib/dpkg/info/*.postinst
-  find /usr/var/lib/dpkg/info -type f  -executable -exec sh -c 'exec "$1"' _ {} \;
-  chmod +x /usr/var/lib/dpkg/info/*.prerm
+# Execute all apt postinstall scripts
+chmod +x /usr/var/lib/dpkg/info/*.postinst
+find /usr/var/lib/dpkg/info -type f  -executable -exec sh -c 'exec "$1"' _ {} \;
+chmod +x /usr/var/lib/dpkg/info/*.prerm
 
-  mkdir /tmp/build
-  cd /tmp/build
-
-  echo "2" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=1
+if [ -d "/tmp/build" ] 
+then
+  rm -rf /tmp/build/
 fi
 
-if [ $SET_STAGE -lt 2 ]; then
+mkdir /tmp/build
+cd /tmp/build
+
+if [ $SET_STAGE -lt 1 ]; then
   # -------- GCC
   mkdir gcc
   pushd gcc
@@ -91,11 +91,11 @@ if [ $SET_STAGE -lt 2 ]; then
   make install-gcc
   popd
 
-  echo "3" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=2
+  echo "2" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=1
 fi
 
-if [ $SET_STAGE -lt 3 ]; then
+if [ $SET_STAGE -lt 2 ]; then
   # replace stdint.h with stdint-gcc.h for Android compatibility
   mv $PREFIX/lib/gcc/arm-none-eabi/4.7.1/include/stdint-gcc.h $PREFIX/lib/gcc/arm-none-eabi/4.7.1/include/stdint.h
 
@@ -112,11 +112,11 @@ if [ $SET_STAGE -lt 3 ]; then
   CXXFLAGS="-fPIC -O2" ./configure --prefix=/usr
   make -j4 install
   popd
-  echo "4" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=3
+  echo "3" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=2
 fi
 
-if [ $SET_STAGE -lt 4 ]; then
+if [ $SET_STAGE -lt 3 ]; then
   # ---- Eigen
   wget --tries=inf https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.bz2
   mkdir eigen
@@ -127,11 +127,11 @@ if [ $SET_STAGE -lt 4 ]; then
   cmake -DCMAKE_INSTALL_PREFIX=/usr ..
   make install
   popd
-  echo "5" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=4
+  echo "4" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=3
 fi
 
-if [ $SET_STAGE -lt 5 ]; then
+if [ $SET_STAGE -lt 4 ]; then
   # --- Libusb
   wget --tries=inf https://github.com/libusb/libusb/releases/download/v1.0.22/libusb-1.0.22.tar.bz2
   tar xjf libusb-1.0.22.tar.bz2
@@ -140,11 +140,11 @@ if [ $SET_STAGE -lt 5 ]; then
   make -j4
   make install
   popd
-  echo "6" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=5
+  echo "5" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=4
 fi
 
-if [ $SET_STAGE -lt 6 ]; then
+if [ $SET_STAGE -lt 5 ]; then
   # ------- tcpdump
   VERSION="4.9.2"
   wget --tries=inf https://www.tcpdump.org/release/tcpdump-$VERSION.tar.gz
@@ -154,11 +154,11 @@ if [ $SET_STAGE -lt 6 ]; then
   make -j4
   make install
   popd
-  echo "7" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=6
+  echo "6" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=5
 fi
 
-if [ $SET_STAGE -lt 7 ]; then
+if [ $SET_STAGE -lt 6 ]; then
   # ----- DFU util 0.8
   wget --tries=inf http://dfu-util.sourceforge.net/releases/dfu-util-0.8.tar.gz
   tar xvf dfu-util-0.8.tar.gz
@@ -167,11 +167,11 @@ if [ $SET_STAGE -lt 7 ]; then
   make -j4
   make install
   popd
-  echo "8" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=7
+  echo "7" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=6
 fi
 
-if [ $SET_STAGE -lt 8 ]; then
+if [ $SET_STAGE -lt 7 ]; then
   # ----- Nload
   wget --tries=inf -O nload-v0.7.4.tar.gz https://github.com/rolandriegel/nload/archive/v0.7.4.tar.gz
   tar xvf nload-v0.7.4.tar.gz
@@ -181,10 +181,10 @@ if [ $SET_STAGE -lt 8 ]; then
   make -j4
   make install
   popd
-  echo "9" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=8
+  echo "8" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=7
 fi
-if [ $SET_STAGE -lt 9 ]; then
+if [ $SET_STAGE -lt 8 ]; then
   # ------- OpenCV
   cd /tmp/build
   git clone https://github.com/opencv/opencv.git
@@ -194,20 +194,20 @@ if [ $SET_STAGE -lt 9 ]; then
   cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
   make -j3
   make install
-  echo "10" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=9
+  echo "9" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=8
 fi
-if [ $SET_STAGE -lt 10 ]; then
+if [ $SET_STAGE -lt 9 ]; then
   # ------- python packages
   cd $HOME
   export PYCURL_SSL_LIBRARY=openssl
   pip install --no-cache-dir --upgrade pip
   pip install --no-cache-dir pipenv
   pipenv install --deploy --system --verbose --clear
-  echo "11" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=10
+  echo "10" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=9
 fi
-if [ $SET_STAGE -lt 11 ]; then
+if [ $SET_STAGE -lt 10 ]; then
   # ------- casadi
   cd /tmp/build
   git clone https://github.com/casadi/casadi.git
@@ -231,11 +231,11 @@ if [ $SET_STAGE -lt 11 ]; then
   rm -rf /usr/local/
   python -c "from casadi import *"
   popd
-  echo "12" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=11
+  echo "11" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=10
 fi
 
-if [ $SET_STAGE -lt 12 ]; then
+if [ $SET_STAGE -lt 11 ]; then
   touch /data/data/com.termux/files/retros_setup_complete
   printf "\n\nInstall successful\nTook $SECONDS seconds\n"
   echo "12" > /data/data/com.termux/files/home/.install_progress
