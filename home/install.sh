@@ -190,5 +190,3 @@ popd
 touch /data/data/com.termux/files/retros_setup_complete
 
 printf "\n\nInstall successful\nTook $SECONDS seconds\n"
-
-reboot
