@@ -37,7 +37,7 @@ tar -xf $BINUTILS.tar.bz2
 popd
 
 mkdir -p build/$BINUTILS
-pushd build/$BINUTILSn denied (publickey,keyboard-interactive).
+pushd build/$BINUTILS
 
 # hack for binutils
 sed -i '1s/^/#define __ANDROID_API__ 28\n/' ../../src/$BINUTILS/bfd/bfdio.c
@@ -66,7 +66,7 @@ mkdir -p build/$GCC
 pushd build/$GCC
 ../../src/$GCC/configure --target=arm-none-eabi \
   --build=aarch64-unknown-linux-gnu \
-  --disable-libssp --disable-gomp --disable-libstcxx-pch --enablexec /data/data/com.termux/files/usr/bin/sshd -De-threads \
+  --disable-libssp --disable-gomp --disable-libstcxx-pch --enable-threads \
   --disable-shared --disable-libmudflap \
   --prefix=$PREFIX --with-cpu=cortex-m4 \
   --with-mode=thumb --disable-multilib \
