@@ -185,29 +185,16 @@ if [ $SET_STAGE -lt 7 ]; then
   SET_STAGE=7
 fi
 if [ $SET_STAGE -lt 8 ]; then
-  # ------- OpenCV
-  cd /tmp/build
-  git clone https://github.com/opencv/opencv.git
-  git -C opencv checkout 4.x
-  mkdir -p build 
-  cd build
-  cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
-  make -j3
-  make install
-  echo "9" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=8
-fi
-if [ $SET_STAGE -lt 9 ]; then
   # ------- python packages
   cd $HOME
   export PYCURL_SSL_LIBRARY=openssl
   pip install --no-cache-dir --upgrade pip
   pip install --no-cache-dir pipenv
   pipenv install --deploy --system --verbose --clear
-  echo "10" > /data/data/com.termux/files/home/.install_progress
-  SET_STAGE=9
+  echo "9" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=8
 fi
-if [ $SET_STAGE -lt 10 ]; then
+if [ $SET_STAGE -lt 9 ]; then
   # ------- casadi
   cd /tmp/build
   git clone https://github.com/casadi/casadi.git
@@ -231,6 +218,20 @@ if [ $SET_STAGE -lt 10 ]; then
   rm -rf /usr/local/
   python -c "from casadi import *"
   popd
+  echo "10" > /data/data/com.termux/files/home/.install_progress
+  SET_STAGE=9
+fi
+
+if [ $SET_STAGE -lt 10 ]; then
+  # ------- OpenCV
+  cd /tmp/build
+  git clone https://github.com/opencv/opencv.git
+  git -C opencv checkout 4.x
+  mkdir -p build 
+  cd build
+  cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
+  make -j4
+  make install
   echo "11" > /data/data/com.termux/files/home/.install_progress
   SET_STAGE=10
 fi
