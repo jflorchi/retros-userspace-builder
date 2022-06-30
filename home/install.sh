@@ -224,21 +224,20 @@ fi
 
 if [ $SET_STAGE -lt 10 ]; then
   # ------- OpenCV
-  cd /tmp/build
-  git clone https://github.com/opencv/opencv.git
-  git -C opencv checkout 4.x
-  mkdir -p build 
-  cd build
-  cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
-  make -j4
-  make install
+  # cd /tmp/build
+  # git clone https://github.com/opencv/opencv.git
+  # git -C opencv checkout 4.x
+  # mkdir -p build 
+  # cd build
+  # cmake ../opencv -DCMAKE_CXX_FLAGS="-llog" 
+  # make -j4
+  # make install
   echo "11" > /data/data/com.termux/files/home/.install_progress
   SET_STAGE=10
 fi
 
 if [ $SET_STAGE -lt 11 ]; then
-  touch /data/data/com.termux/files/retros_setup_complete
-  printf "\n\nInstall successful\nTook $SECONDS seconds\n"
+  echo "\n\nInstall successful\nTook $SECONDS seconds" > /data/data/com.termux/files/retros_setup_complete
   echo "12" > /data/data/com.termux/files/home/.install_progress
   SET_STAGE=11
 fi
