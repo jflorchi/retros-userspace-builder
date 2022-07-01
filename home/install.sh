@@ -53,7 +53,7 @@ if [ $SET_STAGE -lt 1 ]; then
   pushd build/$BINUTILS
 
   # hack for binutils
-  sed -i '1s/^/#define __ANDROID_API__ 28\n/' ../../src/$BINUTILS/bfd/bfdio.c
+  sed -i '1s/^/#define __ANDROID_API__ 29\n/' ../../src/$BINUTILS/bfd/bfdio.c
 
   ../../src/$BINUTILS/configure CPPFLAGS="-D__ANDROID_API__=28" --target=arm-none-eabi \
     --build=aarch64-unknown-linux-gnu \
