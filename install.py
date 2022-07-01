@@ -32,7 +32,11 @@ LOCAL_OVERRIDE_PKG = {
   'gettext': 'gettext_0.20.1-3_aarch64.deb',
   'ripgrep': 'ripgrep_11.0.2-1_aarch64.deb',
   'qt5-base': 'qt5-base_5.12.8-28_aarch64.deb',
-  'qt5-declarative': 'qt5-declarative_5.12.8-28_aarch64.deb'
+  'qt5-declarative': 'qt5-declarative_5.12.8-28_aarch64.deb',
+  'htop': 'htop_2.2.0-2_aarch64.deb',
+  'libutil': 'libutil_0.4_aarch64.deb',
+  'm4': 'm4_1.4.19-3_aarch64.deb',
+  'git-lfs': 'git-lfs_3.1.2_aarch64.deb'
 }
 
 def load_packages():
@@ -183,6 +187,9 @@ if __name__ == "__main__":
         'wget',
         'xz-utils',
         'zlib-dev',
+        'gawk',
+        'findutils',
+        'm4'
     ]
 
     pkg_deps, pkg_filenames = load_packages()
